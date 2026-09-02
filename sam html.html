@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Karthikeyan | Portfolio</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* -------------------------
+       Base / Variables
+       ------------------------- */
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+    :root{
+      --bg-1:#000; --bg-2:#000; --bg-3:#000;
+      --accent:#ff0000; --muted:#E6F7F7; --soft:#fff;
+      --card-bg: rgba(255,255,255,0.02);
+      --nav-h:72px; --max-w:1200px;
+    }
+    body.light-theme{
+      --bg-1:#fff; --bg-2:#F0F6FF; --bg-3:#E8F1FF; --muted:#111; --soft:#111; --card-bg: rgba(0,0,0,0.03);
+    }
+    body{
+      background: linear-gradient(270deg,var(--bg-1),var(--bg-2),var(--bg-3));
+      background-size:600% 600%; animation:moveGradient 15s ease infinite;
+      color:var(--muted);
+      padding-top:var(--nav-h);
+      min-height:100vh;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    @keyframes moveGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .container{max-width:var(--max-w);width:calc(100% - 40px);margin:0 auto;}
+
+    /* -------------------------
+       Header / Navigation
+       ------------------------- */
+    header{
+      position:fixed; left:0; right:0; top:0; height:var(--nav-h); z-index:1000;
+      backdrop-filter:blur(8px);
+      background:linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
+      box-shadow:0 6px 20px rgba(0,0,0,0.45);
+    }
+
+    /* header-inner: container keeps header contents aligned with page */
+    .header-inner{
+      height:100%;
+      display:flex;
+      align-items:center;
+      position:relative; /* for absolutely positioned nav */
+      padding:0 24px;
+    }
+
+    /* site title left */
+    header h1{
+      color:var(--soft);
+      font-weight:700;
+      letter-spacing:1px;
+      font-size:1.35rem;
+      margin-right:12px;
+      z-index:2;
+      /* ensure it's flush inside container — adjust margin to 0 to align left */
+      margin-left:0;
+    }
+
+    /* centered nav: absolute center inside header-inner */
+    nav{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:center;
+      z-index:1;
+    }
+
+    nav a{ color:var(--soft); text-decoration:none; font-weight:600; padding:6px 6px; position:relative; }
+    nav a:hover{ color:var(--accent); }
+    nav a::after{ content:""; position:absolute; left:0; right:0; bottom:-8px; height:3px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .22s; border-radius:2px; }
+    nav a:hover::after{ transform:scaleX(1); }
+    nav a.active{ color:var(--accent); }
+    nav a.active::after{ transform:scaleX(1); }
+
+    /* header-right pushes the toggle to the far right */
+    .header-right { margin-left:auto; display:flex; align-items:center; gap:8px; z-index:2; }
+    .theme-toggle{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--soft);
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:18px;
+    }
+    .theme-toggle:hover{ transform:translateY(-2px); }
+
+    /* -------------------------
+       Home / Hero
+       ------------------------- */
+    section{padding:80px 0;min-height:calc(100vh - var(--nav-h));opacity:0;transform:translateY(28px);transition:all .9s ease-out}
+    section.visible{opacity:1;transform:translateY(0)}
+    #home{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:nowrap;padding-top:20px}
+    .home-text{flex:1 1 520px;max-width:620px}
+    .home-text h2{font-size:3rem;line-height:1; margin-bottom:12px}
+    .home-text h2 span{color:var(--accent);font-weight:700}
+    .home-text h3{color:var(--accent);font-weight:700;margin-bottom:12px}
+    .home-text p{color:var(--muted);margin-bottom:6px;font-size:1.05rem}
+
+    .cta-row{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(90deg,var(--accent),#959595);color:#001;padding:12px 28px;border-radius:30px;text-decoration:none;font-weight:700;box-shadow:0 8px 24px rgba(0,230,230,0.08)}
+    .btn:hover{transform:translateY(-3px)}
+
+    .social-inline{display:flex;gap:12px;align-items:center}
+    .social-inline a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:2px solid rgba(255,255,255,0.12);text-decoration:none;color:var(--soft);background:transparent}
+    .social-inline a:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+    .home-img{flex:0 0 360px;display:flex;align-items:center;justify-content:center}
+    .avatar-ring{width:340px;height:340px;border-radius:50%;background:radial-gradient(circle at 30% 25%, var(--accent) 0%, #7a1a1a 70%);padding:10px;display:flex;align-items:center;justify-content:center}
+    .avatar-ring img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:4px solid rgba(255,255,255,0.06)}
+
+    /* -------------------------
+       Projects / Cards
+       ------------------------- */
+    #projects{background:var(--card-bg);border-radius:14px;padding:36px;border:1px solid rgba(255,255,255,0.03)}
+    .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+    .project{background:rgba(255,255,255,0.02);padding:22px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,0.45)}
+    .project h3{color:var(--accent);margin-bottom:8px}
+
+    /* -------------------------
+       Achievements / Gallery
+       ------------------------- */
+    #achievements{background:var(--card-bg);border-radius:16px;padding:28px;margin-top:20px;border:1px solid rgba(255,255,255,0.03)}
+    #cert-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:8px}
+    #event-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:8px}
+    .gallery-item{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,0.45);opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s}
+    .gallery-item.visible{opacity:1;transform:translateY(0)}
+    .gallery-item img{width:100%;height:200px;object-fit:cover;display:block}
+    .gallery-caption{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);color:#fff;padding:10px;text-align:center}
+    .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:2000;align-items:center;justify-content:center}
+    .lightbox.active{display:flex}
+    .lightbox img{max-width:90%;max-height:80%;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,0.7)}
+
+    /* Events (text list fallback) */
+    #event-list{margin-top:12px;display:grid;gap:10px}
+    .event-item{background: rgba(255,255,255,0.02);border-radius:10px;padding:12px 14px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 20px rgba(0,0,0,0.35);color:var(--muted)}
+    .event-title{font-weight:700;color:var(--soft);margin-bottom:6px}
+    .event-meta{color:rgba(230,247,247,0.9);font-size:.95rem}
+    .event-note{margin-top:6px;color:rgba(230,247,247,0.9)}
+
+    /* -------------------------
+       CONTACT
+       ------------------------- */
+    #contact p a{color:var(--accent);text-decoration:none}
+
+    /* -------------------------
+       === EDUCATION: STYLE C ===
+       Year box on left, card on right
+       ------------------------- */
+    .education { margin-top:22px; display:grid; grid-template-columns: 120px 1fr; gap:18px 24px; align-items:start; max-width:980px; }
+    .edu-entry { grid-column:1 / -1; display:grid; grid-template-columns:120px 1fr; gap:12px; align-items:start; margin-bottom:12px; }
+    .edu-year-box { width:100%; height:72px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); color:var(--accent); font-weight:700; }
+    .edu-card { background: rgba(255,255,255,0.02); border-radius:12px; padding:16px 18px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 8px 24px rgba(0,0,0,0.35); color:var(--muted); min-height:72px; display:flex; flex-direction:column; justify-content:center; }
+    .edu-title{font-weight:700;color:var(--soft);margin-bottom:8px}
+    .edu-sub{color:var(--muted);margin-bottom:6px}
+    .edu-notes{color:rgba(230,247,247,0.9)}
+
+    @media (max-width:720px){
+      .container{width:calc(100% - 28px)}
+      .education{grid-template-columns:1fr}
+      .edu-entry{grid-template-columns:1fr}
+      .avatar-ring{width:240px;height:240px}
+      .home-text h2{font-size:2rem}
+      nav{gap:10px}
+    }
+
+    footer{padding:30px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner container">
+      <!-- left: site title -->
+      <h1>Karthikeyan</h1>
+
+      <!-- center: nav -->
+      <nav id="site-nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <!-- right: theme toggle -->
+      <div class="header-right">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HOME -->
+    <section id="home" class="visible" aria-labelledby="home-heading">
+      <div class="home-text">
+        <h2 id="home-heading">Hello, I’m <span>Karthikeyan</span></h2>
+        <h3 class="type-label"><span class="typewriter" aria-live="polite">Creator</span></h3>
+        <p>I’m an emerging startup founder and tech enthusiast driven to build innovative products that solve real-world problems and create meaningful impact.</p>
+
+        <!-- CTA + social aligned -->
+        <div class="cta-row">
+          <a href="#projects" class="btn">View My Work</a>
+
+          <div class="social-inline" aria-label="Contact links">
+            <a href="https://www.linkedin.com/in/karthikeyan-s-2393332b4" target="_blank" rel="noopener" title="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4.98 3.5C4.98 4.604 4.1 5.5 2.98 5.5C1.86 5.5 0.98 4.604 0.98 3.5C0.98 2.396 1.86 1.5 2.98 1.5C4.1 1.5 4.98 2.396 4.98 3.5Z" fill="currentColor"/>
+                <path d="M0.5 8.5H4.5V23.5H0.5V8.5Z" fill="currentColor"/>
+                <path d="M8.5 8.5H12.18V10.4H12.25C12.9 9.33 14.6 8.2 16.98 8.2C21.54 8.2 22.5 10.98 22.5 15.18V23.5H18.5V15.92C18.5 13.9 18.46 11.32 15.6 11.32C12.7 11.32 12.18 13.56 12.18 15.74V23.5H8.5V8.5Z" fill="currentColor"/>
+              </svg>
+            </a>
+
+            <a href="mailto:karthikeyanshankar8@gmail.com" title="Email">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M2 6.5C2 5.67 2.67 5 3.5 5H20.5C21.33 5 22 5.67 22 6.5V17.5C22 18.33 21.33 19 20.5 19H3.5C2.67 19 2 18.33 2 17.5V6.5Z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 6.5L12 12.5L3 6.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-img">
+        <div class="avatar-ring" role="img" aria-label="Karthikeyan avatar">
+          <img src="https://raw.githubusercontent.com/karthikeyan-947/portfolio/main/Gemini_Generated_Image_1x0d201x0d201x0d.png" alt="Karthikeyan">
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <h2>About Me</h2>
+      <p>I’m an aspiring tech innovator who loves turning ideas into impactful digital products. I enjoy learning new technologies and constantly improving my skills through hands-on projects.</p>
+
+      <!-- Education -->
+      <div class="education" aria-label="Education timeline">
+        <div class="edu-entry">
+          <div class="edu-year-box">2010 - 2016</div>
+          <div class="edu-card">
+            <div class="edu-title">Christ The King Matric Higher Secondary School</div>
+            <div class="edu-sub">SSLC (State Board) — 80.4%</div>
+            <div class="edu-notes">Kumbakonam</div>
+          </div>
+        </div>
+
+        <div class="edu-entry">
+          <div class="edu-year-box">2021 - 2023</div>
+          <div class="edu-card">
+            <div class="edu-title">Christ The King Matric Higher Secondary School</div>
+            <div class="edu-sub">HSC — 77.5%</div>
+            <div class="edu-notes">Kumbakonam</div>
+          </div>
+        </div>
+
+        <div class="edu-entry">
+          <div class="edu-year-box">2023 - 2027</div>
+          <div class="edu-card">
+            <div class="edu-title">B.Tech Information Technology — Chettinad College of Engineering & Technology</div>
+            <div class="edu-sub">Currently pursuing</div>
+            <div class="edu-notes">Karur</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements">
+      <h2>Achievements & Events</h2>
+
+      <h3 style="color:var(--accent); margin-top:8px;">Certificates</h3>
+      <div id="cert-gallery" class="gallery" aria-live="polite"></div>
+      <div style="text-align:center;margin-top:12px;">
+        <button id="view-cert-btn" class="btn">View All Certificates</button>
+      </div>
+
+      <hr style="opacity:0.06;margin:20px 0;border:none;height:1px;background:rgba(255,255,255,0.03)">
+
+      <h3 style="color:var(--accent); margin-top:8px;">Event Photos</h3>
+      <div id="event-gallery" class="gallery" aria-live="polite"></div>
+      <div style="text-align:center;margin-top:12px;">
+        <button id="view-event-btn" class="btn">View All Event Photos</button>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project-grid">
+        <div class="project"><h3>🚌 BusNav</h3><p>A city bus guidance system that helps users find routes, stops, and destinations easily using interactive visuals.</p></div>
+        <div class="project"><h3>🏫 InstiTrack</h3><p>An innovative bus tracking app for colleges that allows students to view their bus’s live location and stop alerts.</p></div>
+        <div class="project"><h3>🎙️ Readify</h3><p>A Tamil poetry-to-speech app that reads Tamil poems aloud with fluent, near-natural pronunciation.</p></div>
+        <div class="project"><h3>📖 Litro</h3><p>An interactive Tamil literature companion that helps users engage with Tamil classics through AI-powered narration.</p></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:karthikeyanshankar8@gmail.com">karthikeyanshankar8@gmail.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/karthikeyan-s-2393332b4" target="_blank" rel="noopener">S.Karthikeyan</a></p>
+    </section>
+
+  </main>
+
+  <footer>© 2025 Karthikeyan | Built using HTML, CSS & Creativity</footer>
+
+  <!-- Lightbox element -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-hidden="true" tabindex="-1"></div>
+
+  <!-- ===========================
+       JavaScript
+       - typewriter
+       - theme toggle
+       - scroll reveal + nav active
+       - gallery + lightbox
+       =========================== -->
+  <script>
+    /* ---------- typewriter ---------- */
+    (function(){
+      const words = ["Creator","Entrepreneur","Web Developer","Innovator","AI Enthusiast"];
+      const el = document.querySelector('.typewriter');
+      if(!el) return;
+      let w=0,i=0;
+      function run(){
+        if(w===words.length) w=0;
+        const cur = words[w];
+        el.textContent = cur.slice(0, ++i);
+        if(i===cur.length){ w++; i=0; setTimeout(run, 900);} else setTimeout(run, 110);
+      }
+      run();
+    })();
+
+    /* ---------- theme toggle ---------- */
+    (function(){
+      const btn = document.getElementById('theme-toggle');
+      const pref = localStorage.getItem('theme');
+      if(pref === 'light') document.body.classList.add('light-theme');
+      function upd(){ btn.textContent = document.body.classList.contains('light-theme') ? '☀️' : '🌙'; }
+      upd();
+      btn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        upd();
+      });
+    })();
+
+    /* ---------- scroll reveal & nav active ---------- */
+    (function(){
+      const sections = document.querySelectorAll('main section');
+      function reveal(){
+        const trigger = window.innerHeight * 0.8;
+        sections.forEach(s => {
+          const t = s.getBoundingClientRect().top;
+          if(t < trigger) s.classList.add('visible');
+        });
+      }
+      window.addEventListener('scroll', reveal);
+      reveal();
+
+      // nav active
+      const links = Array.from(document.querySelectorAll('#site-nav a'));
+      const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+      function setActive(){
+        const middle = window.innerHeight/2;
+        let best = 0, bestDist = Infinity;
+        secs.forEach((sec, idx) => {
+          if(!sec) return;
+          const rect = sec.getBoundingClientRect();
+          const mid = rect.top + rect.height/2;
+          const dist = Math.abs(mid - middle);
+          if(dist < bestDist) { bestDist = dist; best = idx; }
+        });
+        links.forEach((l,i)=> l.classList.toggle('active', i===best));
+      }
+      window.addEventListener('scroll', setActive, {passive:true});
+      window.addEventListener('resize', setActive);
+      setActive();
+      links.forEach(l => l.addEventListener('click', ()=> links.forEach(x=>x.classList.remove('active'))));
+    })();
+
+    /* ---------- galleries + lightbox ---------- */
+    (function(){
+      const certFiles = [
+        "cert1.jpg","cert2.jpg","cert3.jpg","cert4.jpg","cert5.jpg"
+      ].map(n => `https://raw.githubusercontent.com/karthikeyan-947/portfolio/main/certificates/${n}`);
+
+      const eventFiles = [
+        "event1.jpg","event2.jpg","event3.jpg","event4.jpg"
+      ].map(n => `https://raw.githubusercontent.com/karthikeyan-947/portfolio/main/events/${n}`);
+
+      const certGallery = document.getElementById('cert-gallery');
+      const eventGallery = document.getElementById('event-gallery');
+      const certBtn = document.getElementById('view-cert-btn');
+      const eventBtn = document.getElementById('view-event-btn');
+      const lightbox = document.getElementById('lightbox');
+
+      function renderGallery(el, images, limit){
+        if(!el) return;
+        el.innerHTML = '';
+        images.slice(0, limit).forEach(src => {
+          const item = document.createElement('div');
+          item.className = 'gallery-item';
+          item.innerHTML = `<img src="${src}" alt="gallery image"><div class="gallery-caption">Photo</div>`;
+          el.appendChild(item);
+          setTimeout(()=>item.classList.add('visible'), 60);
+        });
+      }
+
+      // initial (show 2 each)
+      renderGallery(certGallery, certFiles, 2);
+      renderGallery(eventGallery, eventFiles, 2);
+
+      if(certBtn) certBtn.addEventListener('click', () => { renderGallery(certGallery, certFiles, certFiles.length); certBtn.style.display = 'none'; });
+      if(eventBtn) eventBtn.addEventListener('click', () => { renderGallery(eventGallery, eventFiles, eventFiles.length); eventBtn.style.display = 'none'; });
+
+      document.body.addEventListener('click', (e) => {
+        if(e.target.tagName === 'IMG' && e.target.closest('.gallery-item')) {
+          const img = document.createElement('img');
+          img.src = e.target.src;
+          lightbox.innerHTML = '';
+          lightbox.appendChild(img);
+          lightbox.classList.add('active');
+          lightbox.setAttribute('aria-hidden','false');
+          lightbox.focus();
+        } else if(e.target === lightbox) {
+          lightbox.classList.remove('active');
+          lightbox.setAttribute('aria-hidden','true');
+        }
+      });
+
+      document.addEventListener('keydown', (ev) => {
+        if(ev.key === 'Escape' && lightbox.classList.contains('active')) {
+          lightbox.classList.remove('active');
+          lightbox.setAttribute('aria-hidden','true');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
